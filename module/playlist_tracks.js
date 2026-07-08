@@ -25,7 +25,7 @@ module.exports = async (query, request) => {
     }
   } catch (error) {
     if (error.body.code === 512) {
-      return request(
+      request(
         `/api/playlist/manipulate/tracks`,
         {
           op: query.op, // del,add
@@ -35,6 +35,12 @@ module.exports = async (query, request) => {
         },
         createOption(query),
       )
+      return {
+        status: 200,
+        body: {
+          ...error,
+        },
+      }
     } else {
       return {
         status: 200,
